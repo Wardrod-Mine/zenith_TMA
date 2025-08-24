@@ -3,44 +3,84 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Навигация на стадионе</title>
+  <title>ZENITH • Навигация</title>
   <link rel="stylesheet" href="./style.css" />
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script defer src="./script.js"></script>
 </head>
+
 <body>
-  <!-- фиксированная кнопка назад -->
-  <button id="backBtn" class="back-button">← Назад</button>
+  <button id="backBtn" class="back-button" aria-label="Назад">← Назад</button>
 
   <main class="container">
     <h1>Навигация на стадионе</h1>
 
-    <section class="grid">
-      <button class="tile" data-screen="seat">
+    <section id="home" class="grid">
+      <button class="tile" data-open="seat">
         <span class="emoji">💺</span>
         <span class="label">Моё место</span>
       </button>
-      <button class="tile" data-screen="food">
+      <button class="tile" data-open="food">
         <span class="emoji">🍔</span>
         <span class="label">Фудкорт</span>
       </button>
-      <button class="tile" data-screen="toilet">
+      <button class="tile" data-open="toilet">
         <span class="emoji">🚻</span>
         <span class="label">Туалет</span>
       </button>
-      <button class="tile" data-screen="shop">
+      <button class="tile" data-open="shop">
         <span class="emoji">🛍️</span>
-        <span class="label">Фан-шоп</span>
+        <span class="label">Фан‑шоп</span>
       </button>
     </section>
 
-    <section class="map-wrap">
-      <!-- замените на свою картинку -->
-      <img class="map" src="./stadium-map.png" alt="Карта стадиона" />
-      <p class="map-caption"><b>Ближайший туалет — 50 м →</b></p>
+    <section id="seat" class="screen hidden" role="region" aria-label="Моё место">
+      <div class="card">
+        <h2>Моё место</h2>
+        <p class="muted">Укажи сектор/ряд/место — подскажем: как дойти до него, где рядом туалет, фудкорт и фан‑шоп.</p>
+
+        <form id="seatForm" class="form">
+          <label>
+            Ярус
+            <select id="tier">
+              <option value="1">1 ярус</option>
+              <option value="2">2 ярус</option>
+            </select>
+          </label>
+
+          <label>
+            Сектор
+            <select id="sector"></select>
+          </label>
+
+          <div class="row2">
+            <label>
+              Ряд
+              <input id="row" type="number" inputmode="numeric" min="1" max="60" placeholder="напр. 12" />
+            </label>
+            <label>
+              Место
+              <input id="seatNum" type="number" inputmode="numeric" min="1" max="50" placeholder="напр. 17" />
+            </label>
+          </div>
+
+          <div class="actions">
+            <button type="button" data-find="toilet" class="primary">Где рядом туалет 🚻</button>
+            <button type="button" data-find="food" class="secondary">Где рядом фудкорт 🍔</button>
+            <button type="button" data-find="shop" class="secondary">Где рядом фан‑шоп 🛍️</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="map-wrap">
+        <img id="arenaMap" class="map" alt="Карта Газпром Арены" />
+        <canvas id="overlay" class="overlay" aria-hidden="true"></canvas>
+        <p id="hint" class="map-caption muted"></p>
+      </div>
     </section>
   </main>
 
-  <nav class="tabbar">
+  <nav class="tabbar" aria-label="Навигация">
     <button class="tab active">Новости</button>
     <button class="tab">Матчи</button>
     <button class="tab">Акции</button>
