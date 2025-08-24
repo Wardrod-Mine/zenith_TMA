@@ -7,6 +7,18 @@ if (tg) {
   tg.BackButton.onClick(() => goHome());
 }
 
+// --- стабилизируем высоту и safe-area в Telegram WebView ---
+function applyViewportVars() {
+  const h = tg?.viewportStableHeight || window.innerHeight;
+  document.documentElement.style.setProperty('--vh', `${h}px`);
+  const inset = Math.max(0, (tg?.viewportHeight || h) - h);
+  document.documentElement.style.setProperty('--safe-bottom', `${inset}px`);
+}
+applyViewportVars();
+tg?.onEvent?.('viewportChanged', applyViewportVars);
+window.addEventListener('resize', applyViewportVars);
+
+
 // ============ Конфигурация карты ============
 const MAP_URL =
   // можно заменить на свой файл в репозитории
@@ -59,7 +71,7 @@ document.querySelectorAll("[data-open]").forEach(btn => {
     const target = btn.dataset.open;
     if (target === "seat") openSeat();
     else {
-      openSeat(); // остальные плитки пока ведут в «Моё место» как в задачах MVP
+      openSeat();
       toast("Откроем «Моё место», чтобы подсказать ближайший " + btn.querySelector(".label").textContent.toLowerCase());
     }
   });
