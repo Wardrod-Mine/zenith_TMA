@@ -157,7 +157,10 @@ function drawMarkers(from=null, to=null) {
 function dot(ctx, x, y, r=6, a=1) {
   ctx.save();
   ctx.globalAlpha = a;
-  ctx.fillStyle = "#1f6feb";
+  ctx.fillStyle = "#000";
+  ctx.strokeStyle = "#fff"; 
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
   ctx.beginPath();
   ctx.arc(x,y,r,0,Math.PI*2);
   ctx.fill();
@@ -212,14 +215,6 @@ function labelFor(type){
 // 1) Если WebApp открыт из reply-клавиатуры — сработает sendData (обработчик: update.message.web_app_data)
 // 2) Если открыт из inline-кнопки — нужен backend и answerWebAppQuery (query_id из initDataUnsafe)
 // Мы шлём только компактное событие без персональных данных.
-function safeSendToBot(payload){
-  try{
-    const data = JSON.stringify(payload);
-    if (tg?.sendData) tg.sendData(data); 
-  }catch(e){ /* ignore */ }
-}
-
-// ============ Помощники ============
 function safeSendToBot(data) {
   if (tg && typeof tg.sendData === "function") {
     tg.sendData(JSON.stringify(data));
