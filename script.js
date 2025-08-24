@@ -22,7 +22,7 @@ window.addEventListener('resize', applyViewportVars);
 // ============ Конфигурация карты ============
 const MAP_URL =
   // можно заменить на свой файл в репозитории
-  "./gazprom_arena_map.jpg";
+  "./gazprom_arena_scheme.png";
 
 // упрощённые "координаты" (в процентах от картинки) для секторов и POI
 const SECTORS = {
@@ -118,10 +118,18 @@ window.addEventListener("resize", resizeCanvas);
 
 function resizeCanvas() {
   const r = $arenaMap.getBoundingClientRect();
-  $overlay.width = r.width;
-  $overlay.height = r.height;
+  const dpr = window.devicePixelRatio || 1;
+
+  $overlay.width = r.width * dpr;
+  $overlay.height = r.height * dpr;
+  $overlay.style.width = `${r.width}px`;
+  $overlay.style.height = `${r.height}px`;
+
+  const ctx = $overlay.getContext("2d");
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // масштабируем
   drawMarkers(); 
 }
+    
 
 function px(percent, size) { return (percent / 100) * size; }
 
@@ -209,6 +217,15 @@ function safeSendToBot(payload){
     const data = JSON.stringify(payload);
     if (tg?.sendData) tg.sendData(data); 
   }catch(e){ /* ignore */ }
+}
+
+// ============ Помощники ============
+function safeSendToBot(data) {
+  if (tg && typeof tg.sendData === "function") {
+    tg.sendData(JSON.stringify(data));
+  } else {
+    console.warn("Telegram WebApp not available, cannot send data:", data);
+  }
 }
 
 // ============ Удобные мелочи ============
