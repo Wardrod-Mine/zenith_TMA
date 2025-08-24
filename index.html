@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Навигация на стадионе</title>
+  <link rel="stylesheet" href="./style.css" />
+  <script defer src="./script.js"></script>
+</head>
+<body>
+  <header class="app-header">
+    <h1 id="screen-title">Навигация на стадионе</h1>
+  </header>
+
+  <main id="app">
+    <!-- Главный экран с плитками -->
+    <section id="screen-home" class="screen active">
+      <div class="grid-tiles">
+        <button class="tile" data-route="news">
+          <div class="icon icon-news"></div>
+          <div class="tile-title">Новости</div>
+        </button>
+        <button class="tile" data-route="matches">
+          <div class="icon icon-ball"></div>
+          <div class="tile-title">Матчи</div>
+        </button>
+        <button class="tile" data-route="promos">
+          <div class="icon icon-tag"></div>
+          <div class="tile-title">Акции</div>
+        </button>
+        <button class="tile" data-route="faq">
+          <div class="icon icon-faq"></div>
+          <div class="tile-title">FAQ</div>
+        </button>
+      </div>
+
+      <div class="card hero">
+        <div class="hero-map">
+          <div class="stadium"></div>
+          <div class="pin"></div>
+          <div class="bubble">
+            Ближайший туалет — 50 м →
+          </div>
+        </div>
+
+        <div class="cta-row">
+          <button class="btn" data-route="myseat">Моё место</button>
+          <button class="btn" data-route="foodcourt">Фудкорт</button>
+        </div>
+        <div class="cta-row">
+          <button class="btn" data-route="toilet">Туалет</button>
+          <button class="btn" data-route="fanshop">Фан-шоп</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Экран: общий раздел навигации (список быстрых кнопок + миникарта) -->
+    <section id="screen-nav" class="screen">
+      <h2 class="section-title">Общая навигация</h2>
+
+      <div class="grid-tiles small">
+        <button class="tile" data-route="myseat"><div class="icon icon-seat"></div><div class="tile-title">Моё место</div></button>
+        <button class="tile" data-route="foodcourt"><div class="icon icon-burger"></div><div class="tile-title">Фудкорт</div></button>
+        <button class="tile" data-route="toilet"><div class="icon icon-wc"></div><div class="tile-title">Туалет</div></button>
+        <button class="tile" data-route="fanshop"><div class="icon icon-bag"></div><div class="tile-title">Фан-шоп</div></button>
+      </div>
+
+      <div class="mini-map card">
+        <div class="stadium small"></div>
+        <div class="pin small"></div>
+      </div>
+
+      <div class="hint">Ближайший туалет — 50 м →</div>
+    </section>
+
+    <!-- Простые внутренние экраны с большой иконкой и стадионом -->
+    <section id="screen-fanshop" class="screen">
+      <div class="big-icon icon-bag"></div>
+      <h2 class="big-title">Фан-шоп</h2>
+      <div class="stadium faded"></div>
+    </section>
+
+    <section id="screen-foodcourt" class="screen">
+      <div class="big-icon icon-burger"></div>
+      <h2 class="big-title">Фудкорт</h2>
+      <div class="stadium faded"></div>
+    </section>
+
+    <section id="screen-toilet" class="screen">
+      <div class="big-icon icon-wc"></div>
+      <h2 class="big-title">Туалет</h2>
+      <div class="stadium faded"></div>
+      <div class="hint">Ближайший туалет — 50 м →</div>
+    </section>
+
+    <section id="screen-myseat" class="screen">
+      <div class="big-icon icon-seat"></div>
+      <h2 class="big-title">Моё место</h2>
+      <div class="stadium faded"></div>
+    </section>
+
+    <!-- Заглушки для табов -->
+    <section id="screen-news" class="screen"><div class="stub">Новости (заглушка)</div></section>
+    <section id="screen-matches" class="screen"><div class="stub">Матчи (заглушка)</div></section>
+    <section id="screen-promos" class="screen"><div class="stub">Акции (заглушка)</div></section>
+    <section id="screen-faq" class="screen"><div class="stub">FAQ (заглушка)</div></section>
+  </main>
+
+  <!-- Нижний таб-бар -->
+  <nav class="tabbar">
+    <button class="tab" data-route="news"><span class="icon icon-news"></span><span>Новости</span></button>
+    <button class="tab" data-route="matches"><span class="icon icon-calendar"></span><span>Матчи</span></button>
+    <button class="tab" data-route="promos"><span class="icon icon-percent"></span><span>Акции</span></button>
+    <button class="tab" data-route="faq"><span class="icon icon-faq"></span><span>FAQ</span></button>
+  </nav>
+</body>
+
+<body>
+  <!-- Кнопка Назад -->
+  <button id="backBtn" class="back-button">← Назад</button>
+
+  <!-- Основной контент -->
+  <div id="app">
+    <h2>Навигация на стадионе</h2>
+    <div class="grid">
+      <div class="card">🏟 Моё место</div>
+      <div class="card">🍔 Фудкорт</div>
+      <div class="card">🚻 Туалет</div>
+      <div class="card">🛍 Фан-шоп</div>
+    </div>
+
+    <!-- КАРТА -->
+    <div class="map-container">
+      <img src="stadium-map.png" alt="Карта стадиона" class="map" />
+      <p class="map-caption">Ближайший туалет — 50 м →</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
