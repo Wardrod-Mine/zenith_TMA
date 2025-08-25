@@ -127,7 +127,9 @@ function resizeCanvas() {
 
   const ctx = $overlay.getContext("2d");
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0); 
-
+  
+  drawMarkers();
+  
   drawDot(ctx, px(18, $overlay.width), px(65, $overlay.height), 4, "#000");          
   drawDot(ctx, px(32, $overlay.width), px(68, $overlay.height), 7, "#000", "#fff");   
 }
@@ -152,7 +154,7 @@ function drawMarkers(from=null, to=null) {
     ctx.lineTo(px(to.x, $overlay.width), px(to.y, $overlay.height));
     ctx.strokeStyle = "#1f6feb";
     ctx.stroke();
-
+    
     drawDot(ctx, px(from.x, $overlay.width), px(from.y, $overlay.height), 4, "#000");
     drawDot(ctx, px(to.x, $overlay.width), px(to.y, $overlay.height), 7, "#000", "#fff");
   }
@@ -236,5 +238,6 @@ function toast(text){
 }
 
 window.addEventListener("popstate", () => goHome());
+
 
 
