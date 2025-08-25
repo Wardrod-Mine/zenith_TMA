@@ -1,3 +1,6 @@
+let mapReady = false;
+let lastFrom = null;
+let lastTo = null;
 
 // ============ Telegram Web Apps boot ============
 const tg = window.Telegram?.WebApp;
@@ -114,8 +117,20 @@ document.querySelectorAll("[data-find]").forEach(btn => {
 
 // ============ Карта и рисование ============
 $arenaMap.src = MAP_URL;
-$arenaMap.onload = resizeCanvas;
-window.addEventListener("resize", resizeCanvas);
+
+$arenaMap.addEventListener("load", () => {
+  mapReady = true;
+  resizeCanvas();               // подгоняем размеры канваса под картинку
+  requestAnimationFrame(() => { // даём браузеру дорисовать img
+    drawMarkers(lastFrom, lastTo);
+  });
+});
+
+window.addEventListener("resize", () => {
+  if (!mapReady) return;
+  resizeCanvas();
+  drawMarkers(lastFrom, lastTo);
+});
 
 function resizeCanvas() {
   const r = $arenaMap.getBoundingClientRect();
@@ -123,15 +138,13 @@ function resizeCanvas() {
 
   $overlay.width  = Math.round(r.width  * dpr);
   $overlay.height = Math.round(r.height * dpr);
-
   $overlay.style.width  = `${r.width}px`;
   $overlay.style.height = `${r.height}px`;
 
   const ctx = $overlay.getContext("2d");
   ctx.setTransform(1, 0, 0, 1, 0, 0);
-
-  drawMarkers();
 }
+
 
 
     
@@ -221,6 +234,14 @@ function findNearest(type) {
     distance_units: "m",
     approx_distance: approxMeters
   });
+  lastFrom = from;
+  lastTo = nearest;
+
+  if (!mapReady) return;          // схема ещё грузится — просто запомним
+  drawMarkers(from, nearest);
+  $hint.textContent = `От сектора ${sector}: ближайший ${type === 'toilet' ? 'туалет' :
+    type === 'food' ? 'фудкорт' : 'фан-шоп'} — «${nearest.name}». См. маршрут.`;
+
 }
 
 function toast(msg) {
