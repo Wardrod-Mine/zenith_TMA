@@ -140,30 +140,33 @@ function drawMarkers(from=null, to=null) {
   Object.values(POI).flat().forEach(p => {
     dot(ctx, px(p.x,$overlay.width), px(p.y,$overlay.height), 5, 0.5);
   });
+  // Отображаем цель и пользователя разными стилями
   if (from && to) {
     ctx.lineWidth = 3;
     ctx.globalAlpha = 1;
     ctx.beginPath();
-    ctx.moveTo(px(from.x,$overlay.width), px(from.y,$overlay.height));
-    ctx.lineTo(px(to.x,$overlay.width),   px(to.y,$overlay.height));
+    ctx.moveTo(px(from.x, $overlay.width), px(from.y, $overlay.height));
+    ctx.lineTo(px(to.x, $overlay.width), px(to.y, $overlay.height));
     ctx.strokeStyle = "#1f6feb";
     ctx.stroke();
 
-    dot(ctx, px(from.x,$overlay.width), px(from.y,$overlay.height), 6, 1);
-    dot(ctx, px(to.x,$overlay.width),   px(to.y,$overlay.height),   6, 1);
+    drawDot(ctx, px(from.x, $overlay.width), px(from.y, $overlay.height), 4, "#000");
+    drawDot(ctx, px(to.x, $overlay.width), px(to.y, $overlay.height), 7, "#000", "#fff");
   }
+
 }
 
-function dot(ctx, x, y, r=6, a=1) {
+function drawDot(ctx, x, y, r = 6, fill = "#000", stroke = null) {
   ctx.save();
-  ctx.globalAlpha = a;
-  ctx.fillStyle = "#000";
-  ctx.strokeStyle = "#fff"; 
-  ctx.lineWidth = 1.5;
-  ctx.stroke();
+  ctx.fillStyle = fill;
   ctx.beginPath();
-  ctx.arc(x,y,r,0,Math.PI*2);
+  ctx.arc(x, y, r, 0, Math.PI * 2);
   ctx.fill();
+  if (stroke) {
+    ctx.strokeStyle = stroke;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
   ctx.restore();
 }
 
