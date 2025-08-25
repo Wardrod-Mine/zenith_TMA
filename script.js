@@ -138,7 +138,7 @@ function drawMarkers(from=null, to=null) {
   ctx.clearRect(0,0,$overlay.width,$overlay.height);
 
   Object.values(POI).flat().forEach(p => {
-    dot(ctx, px(p.x,$overlay.width), px(p.y,$overlay.height), 5, 0.5);
+    dot(ctx, px(p.x,$overlay.width), px(p.y,$overlay.height), 5, 5)
   });
   // Отображаем цель и пользователя разными стилями
   if (from && to) {
