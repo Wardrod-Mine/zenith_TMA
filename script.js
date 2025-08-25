@@ -126,9 +126,12 @@ function resizeCanvas() {
   $overlay.style.height = `${r.height}px`;
 
   const ctx = $overlay.getContext("2d");
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // масштабируем
-  drawMarkers(); 
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0); 
+
+  drawDot(ctx, px(18, $overlay.width), px(65, $overlay.height), 4, "#000");          
+  drawDot(ctx, px(32, $overlay.width), px(68, $overlay.height), 7, "#000", "#fff");   
 }
+
     
 
 function px(percent, size) { return (percent / 100) * size; }
@@ -158,13 +161,13 @@ function drawMarkers(from=null, to=null) {
 
 function drawDot(ctx, x, y, r = 6, fill = "#000", stroke = null) {
   ctx.save();
-  ctx.fillStyle = fill;
   ctx.beginPath();
-  ctx.arc(x, y, r, 0, Math.PI * 2);
+  ctx.arc(x, y, r, 0, 2 * Math.PI);
+  ctx.fillStyle = fill;
   ctx.fill();
   if (stroke) {
-    ctx.strokeStyle = stroke;
     ctx.lineWidth = 2;
+    ctx.strokeStyle = stroke;
     ctx.stroke();
   }
   ctx.restore();
