@@ -121,47 +121,53 @@ function resizeCanvas() {
   const r = $arenaMap.getBoundingClientRect();
   const dpr = window.devicePixelRatio || 1;
 
-  $overlay.width = r.width * dpr;
-  $overlay.height = r.height * dpr;
-  $overlay.style.width = `${r.width}px`;
+  $overlay.width  = Math.round(r.width  * dpr);
+  $overlay.height = Math.round(r.height * dpr);
+
+  $overlay.style.width  = `${r.width}px`;
   $overlay.style.height = `${r.height}px`;
 
   const ctx = $overlay.getContext("2d");
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0); 
-  
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+
   drawMarkers();
-  
-  drawDot(ctx, px(18, $overlay.width), px(65, $overlay.height), 4, "#000");          
-  drawDot(ctx, px(32, $overlay.width), px(68, $overlay.height), 7, "#000", "#fff");   
 }
+
 
     
 
 function px(percent, size) { return (percent / 100) * size; }
 
-function drawMarkers(from=null, to=null) {
+function drawMarkers(from = null, to = null) {
   const ctx = $overlay.getContext("2d");
-  ctx.clearRect(0,0,$overlay.width,$overlay.height);
+
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.clearRect(0, 0, $overlay.width, $overlay.height);
+
+  const W = $overlay.width, H = $overlay.height;
+  const pxx = (perc) => (perc / 100) * W;
+  const pxy = (perc) => (perc / 100) * H;
 
   Object.values(POI).flat().forEach(p => {
-    drawDot(ctx, px(p.x,$overlay.width), px(p.y,$overlay.height), 4, "#1f6feb");
+    drawDot(ctx, pxx(p.x), pxy(p.y), 6, "#fff", "#000");
   });
 
-  // Отображаем цель и пользователя разными стилями
   if (from && to) {
-    ctx.lineWidth = 3;
-    ctx.globalAlpha = 1;
     ctx.beginPath();
-    ctx.moveTo(px(from.x, $overlay.width), px(from.y, $overlay.height));
-    ctx.lineTo(px(to.x, $overlay.width), px(to.y, $overlay.height));
+    ctx.moveTo(pxx(from.x), pxy(from.y));
+    ctx.lineTo(pxx(to.x),   pxy(to.y));
+    ctx.lineCap = "round";
+
+    ctx.lineWidth = 8;
+    ctx.strokeStyle = "rgba(255,255,255,0.95)";
+    ctx.stroke();
+
+    ctx.lineWidth = 3;
     ctx.strokeStyle = "#1f6feb";
     ctx.stroke();
-    
-    drawDot(ctx, px(from.x, $overlay.width), px(from.y, $overlay.height), 4, "#000");
-    drawDot(ctx, px(to.x, $overlay.width), px(to.y, $overlay.height), 7, "#000", "#fff");
   }
-
 }
+
 
 function drawDot(ctx, x, y, r = 6, fill = "#000", stroke = null) {
   ctx.save();
@@ -215,6 +221,10 @@ function findNearest(type) {
     distance_units: "m",
     approx_distance: approxMeters
   });
+}
+
+function toast(msg) {
+  alert(msg); // или кастомное всплывающее уведомление
 }
 
 function labelFor(type){
