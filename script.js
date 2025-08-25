@@ -22,7 +22,7 @@ window.addEventListener('resize', applyViewportVars);
 // ============ Конфигурация карты ============
 const MAP_URL =
   // можно заменить на свой файл в репозитории
-  "";
+  "./gazprom_arena_scheme.png";
 
 // упрощённые "координаты" (в процентах от картинки) для секторов и POI
 const SECTORS = {
@@ -236,4 +236,5 @@ function toast(text){
 }
 
 window.addEventListener("popstate", () => goHome());
+
 
