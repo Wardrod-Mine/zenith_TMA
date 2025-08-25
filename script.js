@@ -1,3 +1,4 @@
+
 // ============ Telegram Web Apps boot ============
 const tg = window.Telegram?.WebApp;
 if (tg) {
@@ -143,8 +144,9 @@ function drawMarkers(from=null, to=null) {
   ctx.clearRect(0,0,$overlay.width,$overlay.height);
 
   Object.values(POI).flat().forEach(p => {
-    dot(ctx, px(p.x,$overlay.width), px(p.y,$overlay.height), 5, 5)
+    drawDot(ctx, px(p.x,$overlay.width), px(p.y,$overlay.height), 4, "#1f6feb");
   });
+
   // Отображаем цель и пользователя разными стилями
   if (from && to) {
     ctx.lineWidth = 3;
@@ -238,6 +240,3 @@ function toast(text){
 }
 
 window.addEventListener("popstate", () => goHome());
-
-
-
